@@ -28,6 +28,12 @@ namespace ConsignaFinal.Controllers
             Ado_Producto.EliminarProducto(id);
         }
 
+        [HttpPost]
+        public void CrearProducto([FromBody] Producto productoCrear)
+        {
+            Ado_Producto.CrearProducto(productoCrear);
+        }
+
     }
 }
 

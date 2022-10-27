@@ -6,7 +6,7 @@ namespace ConsignaFinal.Repository
 {
     public class Ado_UsuarioModificacion
     {
-        internal static List<Usuario> CrearUsuario(Usuario user)
+        public static List<Usuario> CrearUsuario(Usuario user)
         {
             try
             {
@@ -158,13 +158,13 @@ namespace ConsignaFinal.Repository
             }
         }
 
-        public static List<Usuario> Login(Login log)
+        public static List<Usuario> Login(string usuario, string contrasena)
         {
             var ListLoginUser = new List<Usuario>();
 
-            if (log.Contrasena != "" || log.Usuario != "")
+            if (contrasena != "" || usuario != "")
             {
-                if (log.Contrasena != "string" || log.Usuario != "string")
+                if (contrasena != "string" || usuario != "string")
                 {
                     try
                     {
@@ -179,13 +179,13 @@ namespace ConsignaFinal.Repository
                             var NombreUser = new SqlParameter();
                             NombreUser.ParameterName = "NombreUser";
                             NombreUser.SqlDbType = SqlDbType.VarChar;
-                            NombreUser.Value = log.Usuario;
+                            NombreUser.Value = usuario;
                             cmd.Parameters.Add(NombreUser);
 
                             var Contrasena = new SqlParameter();
                             Contrasena.ParameterName = "Contrasena";
                             Contrasena.SqlDbType = SqlDbType.VarChar;
-                            Contrasena.Value = log.Contrasena;
+                            Contrasena.Value = contrasena;
                             cmd.Parameters.Add(Contrasena);
 
                             var reader = cmd.ExecuteReader();
@@ -217,7 +217,7 @@ namespace ConsignaFinal.Repository
             return ListLoginUser;
         }
 
-        internal static List<Usuario> Perfil(int id)
+        public static List<Usuario> Perfil(int id)
         {
             try
             {

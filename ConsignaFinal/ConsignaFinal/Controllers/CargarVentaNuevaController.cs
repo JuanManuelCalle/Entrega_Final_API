@@ -14,5 +14,11 @@ namespace ConsignaFinal.Controllers
         {
             Ado_Venta.CargarVenta(producto, comentarios, IdUsuario);
         }
+
+        [HttpGet("{id}")]
+        public List<Venta> TraerVentasPorUsuario(int id)
+        {
+            return Ado_Venta.TraerVentas(id);
+        }
     }
 }

@@ -7,12 +7,12 @@ namespace ConsignaFinal.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class InicioSesionController : ControllerBase
+    public class TraerProductosIdController : ControllerBase
     {
-        [HttpGet("{usuario}/{contrasena}")]
-        public List<Usuario> Login(string usuario, string contrasena)
+        [HttpGet("{id}")]
+        public List<Producto> TraerProductosCargadosPorUsuario(int id)
         {
-            return Ado_UsuarioModificacion.Login(usuario,contrasena);
+            return Ado_Producto.TraerProductoUsuario(id);
         }
     }
 }

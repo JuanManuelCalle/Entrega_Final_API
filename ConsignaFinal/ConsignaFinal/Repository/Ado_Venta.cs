@@ -60,6 +60,7 @@ namespace ConsignaFinal.Repository
                         cmd2.ExecuteNonQuery();
 
                         cmd.CommandText = ("SELECT Stock FROM Producto WHERE Id = @ProductoId");
+                        cmd.Parameters.Clear();
                         cmd.Parameters.AddWithValue("@ProductoId", productosCargar.IdProducto);
                         var StockParaCambiar = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -84,6 +85,51 @@ namespace ConsignaFinal.Repository
                     }
 
                     conexion.Close();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public static List<Venta> TraerVentas(int id)
+        {
+            try
+            {
+                var conn = new Conexion();
+
+                using (var conexion = new SqlConnection(conn.getCadenaSQL()))
+                {
+                    var ListVenta = new List<Venta>();
+                    conexion.Open();
+                    SqlCommand cmd = conexion.CreateCommand();
+                    cmd.CommandText = "SELECT * FROM Venta WHERE IdUsuario = @IdUser";
+
+                    Convert.ToInt32(id);
+
+                    var IdCarga = new SqlParameter();
+                    IdCarga.ParameterName = "IdUser";
+                    IdCarga.SqlDbType = SqlDbType.BigInt;
+                    IdCarga.Value = id;
+                    cmd.Parameters.Add(IdCarga);
+
+
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var venta = new Venta();
+
+                        venta.Id = Convert.ToInt32(reader.GetValue(0));
+                        venta.Comentarios = reader.GetValue(1).ToString();
+                        venta.IdUsuario = Convert.ToInt32(reader.GetValue(2));
+
+                        ListVenta.Add(venta);
+                    }
+                    reader.Close();
+                    conexion.Close();
+
+                    return ListVenta;
                 }
             }
             catch (Exception)

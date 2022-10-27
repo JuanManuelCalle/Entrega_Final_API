@@ -188,5 +188,107 @@ namespace ConsignaFinal.Repository
                 throw;
             }
         }
+
+        public static void CrearProducto(Producto productoCrear)
+        {
+            try
+            {
+                var conn = new Conexion();
+
+                using (var conexion = new SqlConnection(conn.getCadenaSQL()))
+                {
+                    var listProducto = new List<Producto>();
+                    conexion.Open();
+                    SqlCommand cmd = conexion.CreateCommand();
+                    cmd.CommandText = "INSERT INTO Producto(Descripciones,Costo,PrecioVenta,Stock,IdUsuario) VALUES (@Descripciones, @Costo, @PrecioVenta, @Stock, @IdUsuario) ";
+
+                    var Descripciones = new SqlParameter();
+                    Descripciones.ParameterName = "Descripciones";
+                    Descripciones.SqlDbType = SqlDbType.VarChar;
+                    Descripciones.Value = productoCrear.Descripciones;
+                    cmd.Parameters.Add(Descripciones);
+
+                    var Costo = new SqlParameter();
+                    Costo.ParameterName = "Costo";
+                    Costo.SqlDbType = SqlDbType.Money;
+                    Costo.Value = productoCrear.Costo;
+                    cmd.Parameters.Add(Costo);
+
+                    var PrecioVenta = new SqlParameter();
+                    PrecioVenta.ParameterName = "PrecioVenta";
+                    PrecioVenta.SqlDbType = SqlDbType.Money;
+                    PrecioVenta.Value = productoCrear.PrecioVenta;
+                    cmd.Parameters.Add(PrecioVenta);
+
+                    var Stock = new SqlParameter();
+                    Stock.ParameterName = "Stock";
+                    Stock.SqlDbType = SqlDbType.Int;
+                    Stock.Value = productoCrear.Stock;
+                    cmd.Parameters.Add(Stock);
+
+                    var IdUsuario = new SqlParameter();
+                    IdUsuario.ParameterName = "IdUsuario";
+                    IdUsuario.SqlDbType = SqlDbType.BigInt;
+                    IdUsuario.Value = productoCrear.IdUsuario;
+                    cmd.Parameters.Add(IdUsuario);
+
+
+                    cmd.ExecuteNonQuery();
+
+                    conexion.Close();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public static List<Producto> TraerProductoUsuario(int id)
+        {
+            try
+            {
+                var conn = new Conexion();
+
+                using (var conexion = new SqlConnection(conn.getCadenaSQL()))
+                {
+                    var ListProducto = new List<Producto>();
+                    conexion.Open();
+                    SqlCommand cmd = conexion.CreateCommand();
+                    cmd.CommandText = "SELECT * FROM Producto WHERE IdUsuario = @IdUsuarioCargo";
+
+                    Convert.ToInt32(id);
+
+                    var IdCarga = new SqlParameter();
+                    IdCarga.ParameterName = "IdUsuarioCargo";
+                    IdCarga.SqlDbType = SqlDbType.BigInt;
+                    IdCarga.Value = id;
+                    cmd.Parameters.Add(IdCarga);
+
+
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var productos = new Producto();
+
+                        productos.Id = Convert.ToInt32(reader.GetValue(0));
+                        productos.Descripciones = reader.GetValue(1).ToString();
+                        productos.Costo = Convert.ToInt32(reader.GetValue(2));
+                        productos.PrecioVenta = Convert.ToInt32(reader.GetValue(2));
+                        productos.Stock = Convert.ToInt32(reader.GetValue(2));
+
+                        ListProducto.Add(productos);
+                    }
+                    reader.Close();
+                    conexion.Close();
+
+                    return ListProducto;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
