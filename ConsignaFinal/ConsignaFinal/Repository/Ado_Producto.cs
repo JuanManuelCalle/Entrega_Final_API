@@ -1,5 +1,5 @@
 ﻿using ConsignaFinal.Models;
-using static ConsignaFinal.Controllers.BuscarUsuarioPorID;
+using static ConsignaFinal.Controllers.BuscarUsuarioGET;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
