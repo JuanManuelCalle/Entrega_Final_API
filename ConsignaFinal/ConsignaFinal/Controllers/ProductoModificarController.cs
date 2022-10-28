@@ -12,7 +12,7 @@ namespace ConsignaFinal.Controllers
         [HttpPost]
         public void CrearProducto([FromBody] Producto productoCrear)
         {
-            Ado_ProductoModificar.CrearProducto(productoCrear);
+            Ado_Producto.CrearProducto(productoCrear);
         }
     }
 }
